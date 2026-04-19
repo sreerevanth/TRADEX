@@ -1,0 +1,307 @@
+2026-04-19 20:15:22,282 INFO Failed to create TzCache, reason: Error creating TzCache folder: 'C:\Users\sreer_mg\AppData\Local\py-yfinance' reason: [WinError 5] Access is denied: 'C:\\Users\\sreer_mg\\AppData\\Local\\py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-04-19 20:15:22,283 INFO Failed to create CookieCache, reason: Error creating CookieCache folder: 'C:\Users\sreer_mg\AppData\Local\py-yfinance' reason: [WinError 5] Access is denied: 'C:\\Users\\sreer_mg\\AppData\\Local\\py-yfinance'. CookieCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-04-19 20:15:24,327 ERROR Failed to get ticker 'AAPL' reason: Failed to perform, curl: (7) Failed to connect to 127.0.0.1 port 9 after 2029 ms: Could not connect to server. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-04-19 20:15:26,638 ERROR 
+1 Failed download:
+2026-04-19 20:15:26,638 ERROR ['AAPL']: ConnectionError('Failed to perform, curl: (7) Failed to connect to 127.0.0.1 port 9 after 2032 ms: Could not connect to server. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-04-19 20:15:26,687 WARNING AAPL: No intraday data returned
+2026-04-19 20:15:44,695 INFO Failed to create TzCache, reason: Error creating TzCache folder: 'C:\Users\sreer_mg\AppData\Local\py-yfinance' reason: [WinError 5] Access is denied: 'C:\\Users\\sreer_mg\\AppData\\Local\\py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-04-19 20:15:44,696 INFO Failed to create CookieCache, reason: Error creating CookieCache folder: 'C:\Users\sreer_mg\AppData\Local\py-yfinance' reason: [WinError 5] Access is denied: 'C:\\Users\\sreer_mg\\AppData\\Local\\py-yfinance'. CookieCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-04-19 20:15:46,738 ERROR Failed to get ticker 'AAPL' reason: Failed to perform, curl: (7) Failed to connect to 127.0.0.1 port 9 after 2039 ms: Could not connect to server. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-04-19 20:15:48,798 ERROR 
+1 Failed download:
+2026-04-19 20:15:48,799 ERROR ['AAPL']: ConnectionError('Failed to perform, curl: (7) Failed to connect to 127.0.0.1 port 9 after 2041 ms: Could not connect to server. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-04-19 20:15:48,821 WARNING AAPL: No intraday data returned
+2026-04-19 20:28:05,488 ERROR 
+1 Failed download:
+2026-04-19 20:28:05,488 ERROR ['AAPL']: OperationalError('unable to open database file')
+2026-04-19 20:28:05,501 WARNING AAPL: No intraday data returned
+2026-04-19 20:28:05,512 ERROR 
+1 Failed download:
+2026-04-19 20:28:05,513 ERROR ['MSFT']: OperationalError('unable to open database file')
+2026-04-19 20:28:05,519 WARNING MSFT: No intraday data returned
+2026-04-19 20:28:05,529 ERROR 
+1 Failed download:
+2026-04-19 20:28:05,529 ERROR ['TSLA']: OperationalError('unable to open database file')
+2026-04-19 20:28:05,535 WARNING TSLA: No intraday data returned
+2026-04-19 20:29:48,135 ERROR 
+1 Failed download:
+2026-04-19 20:29:48,135 ERROR ['RELIANCE.NS']: OperationalError('unable to open database file')
+2026-04-19 20:29:48,144 WARNING RELIANCE.NS: No intraday data returned
+2026-04-19 20:29:48,155 ERROR 
+1 Failed download:
+2026-04-19 20:29:48,156 ERROR ['INFY.NS']: OperationalError('unable to open database file')
+2026-04-19 20:29:48,163 WARNING INFY.NS: No intraday data returned
+2026-04-19 20:29:48,174 ERROR 
+1 Failed download:
+2026-04-19 20:29:48,175 ERROR ['TCS.NS']: OperationalError('unable to open database file')
+2026-04-19 20:29:48,180 WARNING TCS.NS: No intraday data returned
+2026-04-19 20:32:27,742 ERROR 
+1 Failed download:
+2026-04-19 20:32:27,742 ERROR ['AAPL']: OperationalError('unable to open database file')
+2026-04-19 20:32:27,750 WARNING AAPL: No intraday data returned
+2026-04-19 20:32:27,759 ERROR 
+1 Failed download:
+2026-04-19 20:32:27,760 ERROR ['MSFT']: OperationalError('unable to open database file')
+2026-04-19 20:32:27,766 WARNING MSFT: No intraday data returned
+2026-04-19 20:32:27,777 ERROR 
+1 Failed download:
+2026-04-19 20:32:27,777 ERROR ['TSLA']: OperationalError('unable to open database file')
+2026-04-19 20:32:27,784 WARNING TSLA: No intraday data returned
+2026-04-19 20:47:18,405 WARNING AAPL: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>; chart fallback failed: Yahoo chart API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2026-04-19 20:49:18,039 WARNING AAPL: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; using Yahoo chart API
+2026-04-19 21:18:38,047 ERROR 
+1 Failed download:
+2026-04-19 21:18:38,048 ERROR ['AAPL']: TypeError("'NoneType' object is not subscriptable")
+2026-04-19 21:18:42,360 WARNING AAPL: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>; chart fallback failed: Yahoo chart API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2026-04-19 21:18:44,381 ERROR 
+1 Failed download:
+2026-04-19 21:18:44,381 ERROR ['MSFT']: TypeError("'NoneType' object is not subscriptable")
+2026-04-19 21:18:48,477 WARNING MSFT: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>; chart fallback failed: Yahoo chart API failed: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2026-04-19 21:46:31,945 ERROR HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: KPIT"}}}
+2026-04-19 21:46:32,670 ERROR $KPIT: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 21:46:32,671 ERROR 
+1 Failed download:
+2026-04-19 21:46:32,671 ERROR ['KPIT']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 21:46:33,115 WARNING KPIT: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API failed: HTTP Error 404: Not Found
+2026-04-19 21:46:51,392 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:46:51,393 ERROR 
+1 Failed download:
+2026-04-19 21:46:51,393 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:46:51,781 WARNING ITC: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 21:47:01,884 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:47:01,885 ERROR 
+1 Failed download:
+2026-04-19 21:47:01,885 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:47:02,111 WARNING ITC: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 21:47:38,874 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:47:38,875 ERROR 
+1 Failed download:
+2026-04-19 21:47:38,875 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:47:39,320 WARNING ITC: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 21:47:40,959 ERROR HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: KPIT"}}}
+2026-04-19 21:47:41,929 ERROR $KPIT: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 21:47:41,930 ERROR 
+1 Failed download:
+2026-04-19 21:47:41,930 ERROR ['KPIT']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 21:47:42,205 WARNING KPIT: yfinance returned no intraday candles; quote fallback failed: Yahoo quote API failed: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API failed: HTTP Error 404: Not Found
+2026-04-19 21:48:39,879 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:39,879 ERROR 
+1 Failed download:
+2026-04-19 21:48:39,879 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:39,884 WARNING ITC: yfinance 5m/5d attempt 1 returned no rows
+2026-04-19 21:48:40,612 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:40,612 ERROR 
+1 Failed download:
+2026-04-19 21:48:40,612 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:40,617 WARNING ITC: yfinance 5m/5d attempt 2 returned no rows
+2026-04-19 21:48:41,452 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:41,453 ERROR 
+1 Failed download:
+2026-04-19 21:48:41,454 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:41,458 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows
+2026-04-19 21:48:41,624 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:41,625 ERROR 
+1 Failed download:
+2026-04-19 21:48:41,625 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:41,630 WARNING ITC: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 21:48:42,458 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:42,459 ERROR 
+1 Failed download:
+2026-04-19 21:48:42,459 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:42,463 WARNING ITC: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 21:48:43,187 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:43,188 ERROR 
+1 Failed download:
+2026-04-19 21:48:43,188 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 21:48:43,192 WARNING ITC: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 21:48:43,193 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 21:48:43,364 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 21:48:44,081 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 21:48:44,901 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 21:48:44,902 WARNING ITC: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 21:48:45,107 WARNING ITC: Yahoo chart API returned no usable price
+2026-04-19 21:48:45,107 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 21:48:45,108 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 22:16:03,757 WARNING AAPL: yfinance 5m/5d attempt 1 returned no rows
+2026-04-19 22:16:04,358 WARNING AAPL: yfinance 5m/5d attempt 2 returned no rows
+2026-04-19 22:16:04,959 WARNING AAPL: yfinance 5m/5d attempt 3 returned no rows
+2026-04-19 22:16:04,960 WARNING AAPL: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 22:16:05,560 WARNING AAPL: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 22:16:06,162 WARNING AAPL: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:16:06,162 WARNING AAPL: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:16:06,444 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 22:16:07,250 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 22:16:08,080 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:16:08,080 WARNING AAPL: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:16:08,598 WARNING AAPL: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; using Yahoo chart API
+2026-04-19 22:16:08,598 WARNING AAPL: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; using Yahoo chart API
+2026-04-19 22:26:08,520 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:08,521 ERROR 
+1 Failed download:
+2026-04-19 22:26:08,522 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:08,530 WARNING ITC: yfinance 5m/5d attempt 1 returned no rows
+2026-04-19 22:26:08,657 ERROR 
+1 Failed download:
+2026-04-19 22:26:08,657 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:08,871 WARNING MSFT: Primary yfinance 5m/5d failed; using yfinance 15m/5d
+2026-04-19 22:26:09,267 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:09,268 ERROR 
+1 Failed download:
+2026-04-19 22:26:09,268 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:09,274 WARNING ITC: yfinance 5m/5d attempt 2 returned no rows
+2026-04-19 22:26:09,443 ERROR 
+1 Failed download:
+2026-04-19 22:26:09,443 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:09,607 WARNING NVDA: Primary yfinance 5m/5d failed; using yfinance 15m/5d
+2026-04-19 22:26:09,946 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:09,947 ERROR 
+1 Failed download:
+2026-04-19 22:26:09,947 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:09,952 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows
+2026-04-19 22:26:10,102 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:10,102 ERROR 
+1 Failed download:
+2026-04-19 22:26:10,102 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:10,106 WARNING ITC: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 22:26:10,848 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:10,849 ERROR 
+1 Failed download:
+2026-04-19 22:26:10,849 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:10,853 WARNING ITC: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 22:26:11,586 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:11,587 ERROR 
+1 Failed download:
+2026-04-19 22:26:11,587 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:26:11,592 WARNING ITC: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:26:11,592 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:26:11,884 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 22:26:12,662 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 22:26:13,788 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:26:13,789 WARNING ITC: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:26:14,095 WARNING ITC: Yahoo chart API returned no usable price
+2026-04-19 22:26:14,096 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 22:30:27,465 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:27,466 ERROR 
+1 Failed download:
+2026-04-19 22:30:27,466 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:27,473 WARNING ITC: yfinance 5m/5d attempt 1 returned no rows
+2026-04-19 22:30:28,492 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:28,493 ERROR 
+1 Failed download:
+2026-04-19 22:30:28,493 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:28,499 WARNING ITC: yfinance 5m/5d attempt 2 returned no rows
+2026-04-19 22:30:29,165 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:29,165 ERROR 
+1 Failed download:
+2026-04-19 22:30:29,165 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:29,170 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows
+2026-04-19 22:30:29,409 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:29,410 ERROR 
+1 Failed download:
+2026-04-19 22:30:29,410 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:29,416 WARNING ITC: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 22:30:30,229 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:30,230 ERROR 
+1 Failed download:
+2026-04-19 22:30:30,230 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:30,233 WARNING ITC: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 22:30:30,960 ERROR $ITC: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:30,960 ERROR 
+1 Failed download:
+2026-04-19 22:30:30,960 ERROR ['ITC']: possibly delisted; no price data found  (period=5d)
+2026-04-19 22:30:30,964 WARNING ITC: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:30:30,964 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:30:31,528 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 22:30:32,485 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 22:30:33,328 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:30:33,329 WARNING ITC: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:30:33,631 WARNING ITC: Yahoo chart API returned no usable price
+2026-04-19 22:30:33,632 WARNING ITC: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API returned no usable price
+2026-04-19 22:33:35,448 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:36,884 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:36,885 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:36,885 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:36,889 WARNING NIFTY AUTO: yfinance 5m/5d attempt 1 returned no rows
+2026-04-19 22:33:38,379 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:39,033 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:39,034 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:39,034 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:39,038 WARNING NIFTY AUTO: yfinance 5m/5d attempt 2 returned no rows
+2026-04-19 22:33:40,530 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:41,081 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:41,082 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:41,082 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:41,087 WARNING NIFTY AUTO: yfinance 5m/5d attempt 3 returned no rows
+2026-04-19 22:33:41,859 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:42,412 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:42,413 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:42,413 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:42,419 WARNING NIFTY AUTO: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 22:33:43,708 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:44,317 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:44,318 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:44,318 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:44,322 WARNING NIFTY AUTO: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 22:33:45,754 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:46,304 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:46,306 ERROR 
+2 Failed downloads:
+2026-04-19 22:33:46,306 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:33:46,312 WARNING NIFTY AUTO: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:33:46,313 WARNING NIFTY AUTO: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:33:46,550 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 22:33:47,357 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 22:33:48,368 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:33:48,369 WARNING NIFTY AUTO: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:33:48,371 WARNING Direct Yahoo request failed: attempt 1: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:33:48,972 WARNING Direct Yahoo request failed: attempt 2: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:33:49,573 WARNING Direct Yahoo request failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:33:49,573 WARNING NIFTY AUTO: Yahoo chart API failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:33:49,574 WARNING NIFTY AUTO: yfinance 5m/5d attempt 3 returned no rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:35:07,140 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:08,238 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:08,239 ERROR 
+2 Failed downloads:
+2026-04-19 22:35:08,239 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:09,621 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:10,186 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:10,186 ERROR 
+2 Failed downloads:
+2026-04-19 22:35:10,186 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:10,191 WARNING NIFTY AUTO: yfinance 15m/5d attempt 1 returned no rows
+2026-04-19 22:35:11,913 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:12,636 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:12,636 ERROR 
+2 Failed downloads:
+2026-04-19 22:35:12,636 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:12,641 WARNING NIFTY AUTO: yfinance 15m/5d attempt 2 returned no rows
+2026-04-19 22:35:14,268 ERROR $AUTO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:14,985 ERROR $NIFTY: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:14,985 ERROR 
+2 Failed downloads:
+2026-04-19 22:35:14,985 ERROR ['AUTO', 'NIFTY']: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+2026-04-19 22:35:14,991 WARNING NIFTY AUTO: yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:35:14,991 WARNING NIFTY AUTO: yfinance 5m/5d returned no valid OHLCV rows; yfinance 15m/5d attempt 3 returned no rows
+2026-04-19 22:35:15,290 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 22:35:16,212 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 22:35:17,163 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:35:17,164 WARNING NIFTY AUTO: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 22:35:17,188 WARNING Direct Yahoo request failed: attempt 1: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:35:17,789 WARNING Direct Yahoo request failed: attempt 2: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:35:18,390 WARNING Direct Yahoo request failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:35:18,390 WARNING NIFTY AUTO: Yahoo chart API failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 22:35:18,391 WARNING NIFTY AUTO: yfinance 5m/5d returned no valid OHLCV rows; yfinance 15m/5d attempt 3 returned no rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; chart fallback failed: Yahoo chart API failed: attempt 3: URL can't contain control characters. '/v8/finance/chart/NIFTY AUTO?range=5d&interval=5m' (found at least ' ')
+2026-04-19 23:25:52,303 WARNING ITC.NS: yfinance 5m/5d returned no valid OHLCV rows; yfinance 15m/5d returned no valid OHLCV rows
+2026-04-19 23:25:52,790 WARNING Direct Yahoo request failed: attempt 1: HTTP Error 401: Unauthorized
+2026-04-19 23:25:53,713 WARNING Direct Yahoo request failed: attempt 2: HTTP Error 401: Unauthorized
+2026-04-19 23:25:54,501 WARNING Direct Yahoo request failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 23:25:54,501 WARNING ITC.NS: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized
+2026-04-19 23:25:54,754 WARNING ITC.NS: yfinance 5m/5d returned no valid OHLCV rows; yfinance 15m/5d returned no valid OHLCV rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; using Yahoo chart API
+2026-04-19 23:30:54,884 WARNING No matching stock found for kalayan
+2026-04-19 23:31:03,765 WARNING No matching stock found for kalayan jwellers
