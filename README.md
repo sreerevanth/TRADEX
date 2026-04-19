@@ -1,34 +1,87 @@
-# Tradex
+# ⚡ TRADEX — Real-Time Trading Dashboard
 
-Python intraday Opening Range Breakout dashboard using Streamlit and free Yahoo Finance data.
+A hacker-style intraday trading simulation dashboard that generates live BUY/SELL signals, tracks trades, and visualizes market data with interactive charts.
 
-## Run
+---
+##DEMO 
+https://github.com/user-attachments/assets/f2789874-dcdd-4239-9b01-6c53bc63a9db
+---
 
-```powershell
+
+## 🚀 Overview
+
+Tradex is a real-time trading system built to simulate how intraday strategies behave in live market conditions.
+
+It scans stocks, applies the **Opening Range Breakout (ORB)** strategy, generates actionable signals, and tracks trades with live P&L — all inside a clean terminal-style UI.
+
+---
+
+## ✨ Features
+
+- 📊 **ORB Strategy Engine**
+  - Detects breakouts from the first 15-minute range
+  - Generates BUY / SELL / HOLD signals
+
+- 🔁 **Real-Time Data Pipeline**
+  - Uses yfinance for intraday data
+  - Multi-level fallback system (Yahoo APIs)
+  - Never silently fails
+
+- 🧠 **Smart Symbol Resolution**
+  - Handles typos and natural names
+  - Auto-resolves to valid tickers
+
+- 💰 **Trade Tracking System**
+  - Auto opens/closes trades
+  - Tracks:
+    - Entry / Exit
+    - Target & Stop-loss
+    - Live P&L
+    - Win rate
+
+- 📈 **Interactive Charts**
+  - Plotly candlestick charts
+  - Entry / Exit markers
+  - Session high / low tracking
+
+- 💻 **Hacker-Style UI**
+  - Built with Streamlit
+  - Neon terminal-inspired design
+  - Real-time system log
+
+---
+
+## 🧠 Strategy Logic
+
+Tradex uses a refined version of **Opening Range Breakout (ORB)**:
+
+- Uses first **15-minute high/low**
+- BUY → breakout above high  
+- SELL → breakdown below low  
+
+Additional filters:
+- Volume confirmation  
+- Trend filter (SMA)  
+- Breakout buffer to reduce noise  
+
+---
+
+## 🛠 Tech Stack
+
+- **Python**
+- **Streamlit**
+- **Plotly**
+- **Pandas
+
+
+- **yfinance + Yahoo Finance APIs**
+
+---
+
+## ▶️ Run Locally
+
+```bash
+git clone https://github.com/sreerevanth/TRADEX.git
+cd TRADEX
 pip install -r requirements.txt
 streamlit run app.py
-```
-
-Use comma-separated Yahoo Finance symbols such as `AAPL, MSFT, TSLA`. For Indian NSE symbols, use Yahoo suffixes like `RELIANCE.NS`.
-
-## Data Fallbacks
-
-Tradex fetches data in this order:
-
-1. yfinance 5-minute candles.
-2. Yahoo Finance direct quote API for latest price.
-3. Yahoo Finance direct chart API for latest price and recent candles.
-
-If every source fails, the error is logged to `logs/tradex.log` and shown in the dashboard warnings.
-
-## Trade Tracking
-
-BUY and SELL signals are stored in `data/trades.json`. Each scan updates open trades with the latest available price, closes trades at target or stop-loss, and refreshes dashboard P&L, win rate, wins, losses, and open/closed trade counts.
-
-## Dashboard
-
-The Streamlit dashboard supports manual scans and 10-15 second auto-refresh. Results are cached briefly to reduce API calls. Charts use Plotly candlesticks with zoom, pan, hover tooltips, session high/low lines, and trade entry/exit markers.
-
-## Symbol Resolution
-
-Inputs are trimmed and normalized before scanning. Tradex checks a local symbol dictionary, applies fuzzy matching for close misspellings, then falls back to Yahoo Finance search. NSE symbols are preferred when Yahoo returns multiple candidates, so inputs like `britaniah` resolve to `BRITANNIA.NS`.
