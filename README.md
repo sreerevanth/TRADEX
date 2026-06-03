@@ -3,7 +3,7 @@
 A hacker-style intraday trading simulation dashboard that generates live BUY/SELL signals, tracks trades, and visualizes market data with interactive charts.
 
 ---
-##DEMO 
+## DEMO
 https://github.com/user-attachments/assets/f2789874-dcdd-4239-9b01-6c53bc63a9db
 ---
 
@@ -71,7 +71,7 @@ Additional filters:
 - **Python**
 - **Streamlit**
 - **Plotly**
-- **Pandas
+- **Pandas**
 
 
 - **yfinance + Yahoo Finance APIs**
