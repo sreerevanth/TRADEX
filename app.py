@@ -112,7 +112,6 @@ def main() -> None:
 
     # ── Paper trade logging ───────────────────────────────
     if trading_mode == "PAPER":
-    logged = st.session_state.get("paper_logged_signals", set())
     for signal in signals:
         if signal.signal in {"BUY", "SELL"}:
             signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
@@ -230,7 +229,7 @@ def main() -> None:
 
     _render_system_log(signals, trades)
 
-   st.markdown('<div class="section-title">CHARTS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">CHARTS</div>', unsafe_allow_html=True)
 
     signal_by_symbol = {signal.symbol: signal for signal in signals}
 
