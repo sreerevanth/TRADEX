@@ -112,9 +112,22 @@ def main() -> None:
 
     # ── Paper trade logging ───────────────────────────────
     if trading_mode == "PAPER":
-        for signal in signals:
-            if signal.signal in {"BUY", "SELL"}:
+    logged = st.session_state.get("paper_logged_signals", set())
+    for signal in signals:
+        if signal.signal in {"BUY", "SELL"}:
+            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
+            if signal_key not in logged:
                 log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
+                logged.add(signal_key)
+    st.session_state["paper_logged_signals"] = loggedif trading_mode == "PAPER":
+    logged = st.session_state.get("paper_logged_signals", set())
+    for signal in signals:
+        if signal.signal in {"BUY", "SELL"}:
+            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
+            if signal_key not in logged:
+                log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
+                logged.add(signal_key)
+    st.session_state["paper_logged_signals"] = logged
 
     mode_label = "PAPER" if trading_mode == "PAPER" else "LIVE"
     st.markdown(
