@@ -1,28 +1,20 @@
-# backtester.py
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import date, timedelta
-from typing import Optional
+from dataclasses import dataclass, field
+from datetime import date
+from typing import Any
 
-import pandas as pd
 import yfinance as yf
 
 
 @dataclass
 class BacktestResult:
-    ticker: str
-    start_date: str
-    end_date: str
-    total_trades: int
-    winning_trades: int
-    losing_trades: int
-    win_rate: float          # percentage
-    total_return: float      # dollar P&L (per share)
-    total_return_pct: float  # percentage return
-    max_drawdown: float      # percentage
-    avg_trade_pnl: float
-    trade_log: list[dict]
+    total_trades: int = 0
+    win_rate: float = 0.0
+    total_return: float = 0.0
+    total_return_pct: float = 0.0
+    max_drawdown: float = 0.0
+    trade_log: list[dict[str, Any]] = field(default_factory=list)
 
 
 def run_backtest(
@@ -31,193 +23,119 @@ def run_backtest(
     end_date: date,
     sl_pct: float = 0.5,
     tp_pct: float = 1.0,
-    orb_minutes: int = 15,
 ) -> BacktestResult:
-    """
-    Fetch historical 1-minute intraday data and replay the ORB strategy
-    day-by-day. Returns a BacktestResult with full trade log and metrics.
-    """
-    # yfinance caps 1m data at 7 days; use 5m for longer ranges
-    delta_days = (end_date - start_date).days
-    interval = "1m" if delta_days <= 7 else "5m"
-
-    raw = yf.download(
+    df = yf.download(
         ticker,
         start=start_date.isoformat(),
-        end=(end_date + timedelta(days=1)).isoformat(),
-        interval=interval,
+        end=end_date.isoformat(),
+        interval="1d",
         progress=False,
         auto_adjust=True,
     )
 
-    if raw.empty:
-        return BacktestResult(
-            ticker=ticker,
-            start_date=start_date.isoformat(),
-            end_date=end_date.isoformat(),
-            total_trades=0,
-            winning_trades=0,
-            losing_trades=0,
-            win_rate=0.0,
-            total_return=0.0,
-            total_return_pct=0.0,
-            max_drawdown=0.0,
-            avg_trade_pnl=0.0,
-            trade_log=[],
-        )
+    if df.empty or len(df) < 3:
+        return BacktestResult()
 
-    # Flatten MultiIndex columns if present
-    if isinstance(raw.columns, pd.MultiIndex):
-        raw.columns = raw.columns.get_level_values(0)
+    df = df.copy()
+    trade_log: list[dict[str, Any]] = []
 
-    raw.index = pd.to_datetime(raw.index)
-    # Group by calendar date
-    trade_log = []
-    equity_curve = [0.0]
-    running_pnl = 0.0
+    # ORB strategy: use first candle's high/low as the opening range
+    # Entry on breakout above ORB high (BUY) or below ORB low (SELL)
+    orb_high = float(df["High"].iloc[0])
+    orb_low  = float(df["Low"].iloc[0])
 
-    for day, day_data in raw.groupby(raw.index.date):
-        day_data = day_data.sort_index()
-        if len(day_data) < 2:
+    for i in range(1, len(df)):
+        row = df.iloc[i]
+        day_open  = float(row["Open"])
+        day_high  = float(row["High"])
+        day_low   = float(row["Low"])
+        day_close = float(row["Close"])
+        date_str  = str(df.index[i].date())
+
+        side: str | None = None
+        entry: float | None = None
+
+        # Determine breakout direction
+        if day_open > orb_high:
+            side, entry = "BUY", day_open
+        elif day_open < orb_low:
+            side, entry = "SELL", day_open
+
+        if side is None or entry is None:
+            # Update ORB with previous day
+            orb_high = max(orb_high, day_high)
+            orb_low  = min(orb_low, day_low)
             continue
 
-        # Opening range = first orb_minutes of the session
-        session_start = day_data.index[0]
-        orb_end = session_start + pd.Timedelta(minutes=orb_minutes)
-        orb_data = day_data[day_data.index < orb_end]
+        if side == "BUY":
+            sl_price = entry * (1 - sl_pct / 100)
+            tp_price = entry * (1 + tp_pct / 100)
+        else:
+            sl_price = entry * (1 + sl_pct / 100)
+            tp_price = entry * (1 - tp_pct / 100)
 
-        if orb_data.empty:
-            continue
+        # Simulate intraday exit using day's high/low
+        exit_price: float
+        exit_reason: str
 
-        orb_high = float(orb_data["High"].max())
-        orb_low = float(orb_data["Low"].min())
-
-        # Signal candles = everything after ORB window
-        post_orb = day_data[day_data.index >= orb_end]
-        if post_orb.empty:
-            continue
-
-        signal_generated = False
-        for ts, candle in post_orb.iterrows():
-            close = float(candle["Close"])
-
-            if close > orb_high and not signal_generated:
-                side = "BUY"
-                entry = close
-                take_profit = round(entry * (1 + tp_pct / 100), 2)
-                stop_loss = round(entry * (1 - sl_pct / 100), 2)
-                signal_generated = True
-
-            elif close < orb_low and not signal_generated:
-                side = "SELL"
-                entry = close
-                take_profit = round(entry * (1 - tp_pct / 100), 2)
-                stop_loss = round(entry * (1 + sl_pct / 100), 2)
-                signal_generated = True
-
+        if side == "BUY":
+            if day_low <= sl_price:
+                exit_price, exit_reason = sl_price, "STOP_LOSS"
+            elif day_high >= tp_price:
+                exit_price, exit_reason = tp_price, "TAKE_PROFIT"
             else:
-                continue
-
-            # Simulate trade: scan remaining candles of the day for exit
-            remaining = post_orb[post_orb.index > ts]
-            exit_price = None
-            exit_reason = "EOD"
-
-            for _, future in remaining.iterrows():
-                hi = float(future["High"])
-                lo = float(future["Low"])
-
-                if side == "BUY":
-                    if lo <= stop_loss:
-                        exit_price = stop_loss
-                        exit_reason = "Stop Loss"
-                        break
-                    if hi >= take_profit:
-                        exit_price = take_profit
-                        exit_reason = "Take Profit"
-                        break
-                else:  # SELL
-                    if hi >= stop_loss:
-                        exit_price = stop_loss
-                        exit_reason = "Stop Loss"
-                        break
-                    if lo <= take_profit:
-                        exit_price = take_profit
-                        exit_reason = "Take Profit"
-                        break
-
-            if exit_price is None:
-                # Close at end of day
-                exit_price = float(day_data["Close"].iloc[-1])
-
-            if side == "BUY":
-                pnl = round(exit_price - entry, 2)
+                exit_price, exit_reason = day_close, "EOD"
+        else:
+            if day_high >= sl_price:
+                exit_price, exit_reason = sl_price, "STOP_LOSS"
+            elif day_low <= tp_price:
+                exit_price, exit_reason = tp_price, "TAKE_PROFIT"
             else:
-                pnl = round(entry - exit_price, 2)
+                exit_price, exit_reason = day_close, "EOD"
 
-            pnl_pct = round(pnl / entry * 100, 2)
-            running_pnl += pnl
-            equity_curve.append(running_pnl)
+        pnl = (exit_price - entry) * (1 if side == "BUY" else -1)
+        pnl_pct = (pnl / entry) * 100
 
-            trade_log.append({
-                "date": str(day),
-                "side": side,
-                "entry": round(entry, 2),
-                "exit": round(exit_price, 2),
-                "stop_loss": stop_loss,
-                "take_profit": take_profit,
-                "pnl": pnl,
-                "pnl_pct": pnl_pct,
-                "exit_reason": exit_reason,
-            })
+        trade_log.append({
+            "date": date_str,
+            "side": side,
+            "entry": round(entry, 4),
+            "exit": round(exit_price, 4),
+            "stop_loss": round(sl_price, 4),
+            "take_profit": round(tp_price, 4),
+            "pnl": round(pnl, 4),
+            "pnl_pct": round(pnl_pct, 4),
+            "exit_reason": exit_reason,
+        })
 
-            break  # one trade per day
+        orb_high = day_high
+        orb_low  = day_low
 
     if not trade_log:
-        return BacktestResult(
-            ticker=ticker,
-            start_date=start_date.isoformat(),
-            end_date=end_date.isoformat(),
-            total_trades=0,
-            winning_trades=0,
-            losing_trades=0,
-            win_rate=0.0,
-            total_return=0.0,
-            total_return_pct=0.0,
-            max_drawdown=0.0,
-            avg_trade_pnl=0.0,
-            trade_log=[],
-        )
+        return BacktestResult()
 
-    winners = [t for t in trade_log if t["pnl"] > 0]
-    losers = [t for t in trade_log if t["pnl"] <= 0]
-    total_return = round(sum(t["pnl"] for t in trade_log), 2)
-    first_entry = trade_log[0]["entry"]
-    total_return_pct = round(total_return / first_entry * 100, 2) if first_entry else 0.0
-    avg_trade_pnl = round(total_return / len(trade_log), 2)
+    wins = [t for t in trade_log if t["pnl"] > 0]
+    total_return = sum(t["pnl"] for t in trade_log)
+    total_return_pct = sum(t["pnl_pct"] for t in trade_log)
+    win_rate = round(len(wins) / len(trade_log) * 100, 1)
 
     # Max drawdown from equity curve
-    peak = equity_curve[0]
+    equity = 0.0
+    peak = 0.0
     max_dd = 0.0
-    for val in equity_curve:
-        if val > peak:
-            peak = val
-        dd = (peak - val)
+    for t in trade_log:
+        equity += t["pnl"]
+        if equity > peak:
+            peak = equity
+        dd = (peak - equity) / peak * 100 if peak > 0 else 0
         if dd > max_dd:
             max_dd = dd
-    max_dd_pct = round(max_dd / first_entry * 100, 2) if first_entry else 0.0
 
     return BacktestResult(
-        ticker=ticker,
-        start_date=start_date.isoformat(),
-        end_date=end_date.isoformat(),
         total_trades=len(trade_log),
-        winning_trades=len(winners),
-        losing_trades=len(losers),
-        win_rate=round(len(winners) / len(trade_log) * 100, 1),
-        total_return=total_return,
-        total_return_pct=total_return_pct,
-        max_drawdown=max_dd_pct,
-        avg_trade_pnl=avg_trade_pnl,
+        win_rate=win_rate,
+        total_return=round(total_return, 2),
+        total_return_pct=round(total_return_pct, 2),
+        max_drawdown=round(max_dd, 2),
         trade_log=trade_log,
     )
