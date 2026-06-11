@@ -32,6 +32,23 @@ def main() -> None:
     with st.sidebar:
         st.markdown('<div class="sidebar-header">CONTROL</div>', unsafe_allow_html=True)
         raw_symbols = st.text_area("Stock symbols", value="AAPL, MSFT, TSLA", height=100)
+
+        st.markdown('### Risk Settings')
+
+        target_percent = st.number_input(
+            "Target %",
+            min_value = 0.5,
+            max_value = 10.0,
+            value = 1.0,
+            step = 0.5,
+        )
+        stop_percent = st.number_input(
+            "Stop Loss %",
+            min_value = 0.1,
+            max_value = 5.0,
+            value = 0.5,
+            step = 0.1,
+        )
         
         col1, col2 = st.columns(2)
         with col1:
@@ -78,7 +95,7 @@ def main() -> None:
         return
 
     with st.spinner("Analyzing data..."):
-        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols))
+        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols),target_percent,stop_percent)
 
     frame = signals_to_frame(signals)
     if frame.empty:
@@ -172,8 +189,8 @@ def main() -> None:
 
 
 @st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
-def _analyze_cached(symbols: tuple[str, ...]):
-    return analyze_symbols(list(symbols))
+def _analyze_cached(symbols: tuple[str, ...],target_percent,stop_percent):
+    return analyze_symbols(list(symbols),target_percent,stop_percent)
 
 
 @st.cache_data(ttl=300, show_spinner=False)
