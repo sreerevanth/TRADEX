@@ -9,6 +9,8 @@ import streamlit as st
 
 from symbol_resolver import ResolutionResult, resolve_symbols
 from trader import analyze_symbols, parse_symbols, signals_to_frame
+from paper_trader import log_paper_trade, get_paper_trades, get_paper_stats, clear_paper_trades
+from backtester import run_backtest
 
 
 st.set_page_config(page_title="Tradex", page_icon="TX", layout="wide")
@@ -31,6 +33,7 @@ def main() -> None:
 
     with st.sidebar:
         st.markdown('<div class="sidebar-header">CONTROL</div>', unsafe_allow_html=True)
+
         raw_symbols = st.text_area("Stock symbols", value="AAPL, MSFT, TSLA", height=100)
 
         st.markdown('### Risk Settings')
@@ -58,7 +61,29 @@ def main() -> None:
                 refresh_seconds = st.slider("Interval (s)", min_value=10, max_value=15, value=12, step=1)
             else:
                 refresh_seconds = 12
-        
+
+        # ── Trading Mode ──────────────────────────────────
+        st.markdown("---")
+        st.markdown('<div class="sidebar-header">TRADING MODE</div>', unsafe_allow_html=True)
+        trading_mode = st.radio(
+            "Mode",
+            options=["LIVE", "PAPER"],
+            index=0,
+            horizontal=True,
+            help="Paper mode logs simulated trades without real capital",
+        )
+        if trading_mode == "PAPER":
+            st.info("📄 Paper Trading — No real capital at risk")
+            if st.button("Clear Paper Trades", use_container_width=True):
+                clear_paper_trades()
+                st.success("Paper trades cleared")
+
+        # ── Risk Management ───────────────────────────────
+        st.markdown("---")
+        st.markdown('<div class="sidebar-header">RISK MANAGEMENT</div>', unsafe_allow_html=True)
+        sl_pct = st.slider("Stop Loss %", min_value=0.1, max_value=5.0, value=0.5, step=0.1)
+        tp_pct = st.slider("Take Profit %", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
+
         run_scan = st.button("RUN SCAN", type="primary", use_container_width=True)
         st.caption("Yahoo Finance & NSE supported")
 
@@ -102,12 +127,65 @@ def main() -> None:
         st.warning("No signals generated")
         return
 
+    # ── Paper trade logging ───────────────────────────────
+    if trading_mode == "PAPER":
+    for signal in signals:
+        if signal.signal in {"BUY", "SELL"}:
+            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
+            if signal_key not in logged:
+                log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
+                logged.add(signal_key)
+    st.session_state["paper_logged_signals"] = loggedif trading_mode == "PAPER":
+    logged = st.session_state.get("paper_logged_signals", set())
+    for signal in signals:
+        if signal.signal in {"BUY", "SELL"}:
+            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
+            if signal_key not in logged:
+                log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
+                logged.add(signal_key)
+    st.session_state["paper_logged_signals"] = logged
+
+    mode_label = "PAPER" if trading_mode == "PAPER" else "LIVE"
     st.markdown(
-        f'<div class="timestamp">LIVE • {datetime.now().strftime("%H:%M:%S")}</div>',
+        f'<div class="timestamp">{mode_label} • {datetime.now().strftime("%H:%M:%S")}</div>',
         unsafe_allow_html=True
     )
 
     _render_performance(stats)
+
+    # ── Paper trading dashboard ───────────────────────────
+    if trading_mode == "PAPER":
+        paper_stats = get_paper_stats()
+        st.markdown('<div class="section-title">PAPER TRADING</div>', unsafe_allow_html=True)
+        _render_paper_performance(paper_stats)
+        paper_trades = get_paper_trades()
+        if paper_trades:
+            paper_df = pd.DataFrame(paper_trades)
+            st.dataframe(
+                paper_df[[
+                    "symbol", "side", "status", "entry_price",
+                    "stop_loss", "take_profit", "pnl", "pnl_pct",
+                    "entry_time", "exit_price", "exit_time", "exit_reason"
+                ]],
+                hide_index=True,
+                use_container_width=True,
+                column_config={
+                    "symbol": st.column_config.TextColumn("Symbol"),
+                    "side": st.column_config.TextColumn("Side"),
+                    "status": st.column_config.TextColumn("Status"),
+                    "entry_price": st.column_config.NumberColumn("Entry", format="%.2f"),
+                    "stop_loss": st.column_config.NumberColumn("Stop Loss", format="%.2f"),
+                    "take_profit": st.column_config.NumberColumn("Take Profit", format="%.2f"),
+                    "pnl": st.column_config.NumberColumn("P&L", format="%.2f"),
+                    "pnl_pct": st.column_config.NumberColumn("P&L %", format="%.2f%%"),
+                    "entry_time": st.column_config.TextColumn("Entry Time"),
+                    "exit_price": st.column_config.NumberColumn("Exit", format="%.2f"),
+                    "exit_time": st.column_config.TextColumn("Exit Time"),
+                    "exit_reason": st.column_config.TextColumn("Reason"),
+                },
+            )
+        else:
+            st.info("No paper trades yet. Run a scan with a BUY/SELL signal to start.")
     
     st.markdown('<div class="section-title">SIGNALS</div>', unsafe_allow_html=True)
     cols = st.columns(min(4, len(signals)))
@@ -169,8 +247,9 @@ def main() -> None:
     _render_system_log(signals, trades)
 
     st.markdown('<div class="section-title">CHARTS</div>', unsafe_allow_html=True)
+
     signal_by_symbol = {signal.symbol: signal for signal in signals}
-    
+
     for symbol in symbols:
         data = charts.get(symbol)
         if data is None or data.empty:
@@ -178,14 +257,113 @@ def main() -> None:
             continue
 
         st.plotly_chart(
-            _price_figure(symbol, data, signal_by_symbol.get(symbol), _symbol_trades(trades, symbol)),
+            _price_figure(
+                symbol, data,
+                signal_by_symbol.get(symbol),
+                _symbol_trades(trades, symbol),
+                sl_pct=sl_pct,
+                tp_pct=tp_pct,
+            ),
             use_container_width=True,
             config={"displayModeBar": True, "scrollZoom": True},
         )
-
     if auto_refresh:
         time.sleep(refresh_seconds)
         st.rerun()
+
+
+def _render_backtest_tab() -> None:
+    """Standalone backtesting UI rendered as a separate Streamlit page section."""
+    st.markdown('<div class="section-title">HISTORICAL BACKTESTER</div>', unsafe_allow_html=True)
+    st.caption("Replay the ORB strategy on historical data to validate performance.")
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        bt_ticker = st.text_input("Ticker", value="AAPL", key="bt_ticker")
+    with col2:
+        from datetime import date
+        bt_start = st.date_input("Start Date", value=date.today().replace(day=1), key="bt_start")
+    with col3:
+        bt_end = st.date_input("End Date", value=date.today(), key="bt_end")
+
+    col4, col5 = st.columns(2)
+    with col4:
+        bt_sl = st.slider("Stop Loss %", 0.1, 5.0, 0.5, 0.1, key="bt_sl")
+    with col5:
+        bt_tp = st.slider("Take Profit %", 0.1, 10.0, 1.0, 0.1, key="bt_tp")
+
+    if st.button("RUN BACKTEST", type="primary", key="run_bt"):
+        if bt_start >= bt_end:
+            st.error("Start date must be before end date")
+            return
+
+        with st.spinner(f"Backtesting {bt_ticker.upper()} from {bt_start} to {bt_end}..."):
+            result = run_backtest(
+                ticker=bt_ticker.upper(),
+                start_date=bt_start,
+                end_date=bt_end,
+                sl_pct=bt_sl,
+                tp_pct=bt_tp,
+            )
+
+        if result.total_trades == 0:
+            st.warning("No trades generated. Try a longer date range or different ticker.")
+            return
+
+        # Metrics row
+        m1, m2, m3, m4, m5 = st.columns(5)
+        m1.metric("Total Trades", result.total_trades)
+        m2.metric("Win Rate", f"{result.win_rate}%")
+        m3.metric("Total Return", f"${result.total_return:.2f}")
+        m4.metric("Return %", f"{result.total_return_pct:.2f}%")
+        m5.metric("Max Drawdown", f"{result.max_drawdown:.2f}%")
+
+        # Trade log table
+        st.markdown("**Trade Log**")
+        trade_df = pd.DataFrame(result.trade_log)
+        st.dataframe(
+            trade_df,
+            hide_index=True,
+            use_container_width=True,
+            column_config={
+                "date": st.column_config.TextColumn("Date"),
+                "side": st.column_config.TextColumn("Side"),
+                "entry": st.column_config.NumberColumn("Entry", format="%.2f"),
+                "exit": st.column_config.NumberColumn("Exit", format="%.2f"),
+                "stop_loss": st.column_config.NumberColumn("Stop Loss", format="%.2f"),
+                "take_profit": st.column_config.NumberColumn("Take Profit", format="%.2f"),
+                "pnl": st.column_config.NumberColumn("P&L", format="%.2f"),
+                "pnl_pct": st.column_config.NumberColumn("P&L %", format="%.2f%%"),
+                "exit_reason": st.column_config.TextColumn("Exit Reason"),
+            },
+        )
+
+        # Equity curve chart
+        import plotly.graph_objects as go
+        equity = [0.0]
+        for t in result.trade_log:
+            equity.append(equity[-1] + t["pnl"])
+
+        eq_fig = go.Figure()
+        eq_fig.add_trace(go.Scatter(
+            y=equity,
+            mode="lines+markers",
+            line={"color": "#ffd400", "width": 2},
+            marker={"size": 5},
+            name="Equity Curve",
+        ))
+        eq_fig.update_layout(
+            template="plotly_dark",
+            height=300,
+            title="Equity Curve",
+            paper_bgcolor="#050505",
+            plot_bgcolor="#0f0f0f",
+            font={"family": "monospace", "color": "#eaeaea", "size": 10},
+            margin={"l": 20, "r": 20, "t": 40, "b": 20},
+        )
+        eq_fig.update_xaxes(gridcolor="rgba(255,212,0,0.1)")
+        eq_fig.update_yaxes(gridcolor="rgba(255,212,0,0.1)")
+        st.plotly_chart(eq_fig, use_container_width=True)
 
 
 @st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
@@ -209,7 +387,7 @@ def _render_resolutions(resolutions: list[ResolutionResult]) -> None:
                 st.error(f"✗ {result.original}: Not found")
 
 
-def _price_figure(symbol: str, data: pd.DataFrame, signal, trades: pd.DataFrame) -> go.Figure:
+def _price_figure(symbol: str, data: pd.DataFrame, signal, trades: pd.DataFrame, sl_pct: float = 0.5, tp_pct: float = 1.0) -> go.Figure:
     chart = data.sort_index().copy()
     latest_price = float(chart["Close"].iloc[-1])
     session_high = float(chart["High"].max())
@@ -252,6 +430,34 @@ def _price_figure(symbol: str, data: pd.DataFrame, signal, trades: pd.DataFrame)
         )
 
     _add_trade_markers(fig, trades)
+    if signal and signal.signal in {"BUY", "SELL"} and signal.entry_price is not None:
+        entry = signal.entry_price
+        if signal.signal == "BUY":
+            sl_price = entry * (1 - sl_pct / 100)
+            tp_price = entry * (1 + tp_pct / 100)
+        else:
+            sl_price = entry * (1 + sl_pct / 100)
+            tp_price = entry * (1 - tp_pct / 100)
+
+        fig.add_hline(
+            y=sl_price,
+            line_width=1.5,
+            line_dash="dot",
+            line_color="#ff4d4d",
+            annotation_text=f"SL {sl_price:.2f}",
+            annotation_position="right",
+            annotation_font_color="#ff4d4d",
+        )
+        fig.add_hline(
+            y=tp_price,
+            line_width=1.5,
+            line_dash="dot",
+            line_color="#00ff88",
+            annotation_text=f"TP {tp_price:.2f}",
+            annotation_position="right",
+            annotation_font_color="#00ff88",
+        )
+
 
     fig.update_layout(
         template="plotly_dark",
@@ -306,6 +512,32 @@ def _symbol_trades(trades: pd.DataFrame, symbol: str) -> pd.DataFrame:
         return trades
     return trades[trades["symbol"] == symbol]
 
+def _render_paper_performance(stats: dict) -> None:
+    color = "#ff4d4d" if stats.get("total_pnl", 0) < 0 else "#ffd400"
+    html = f"""
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">PAPER P&L</div>
+        <div class="metric-value" style="color:{color};">${stats.get("total_pnl", 0):.2f}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">WIN RATE</div>
+        <div class="metric-value" style="color:#ffd400;">{stats.get("win_rate", 0):.1f}%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">OPEN</div>
+        <div class="metric-value" style="color:#ffd400;">{int(stats.get("open_trades", 0))}</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">CLOSED</div>
+        <div class="metric-value" style="color:#ffd400;">{int(stats.get("closed_trades", 0))}</div>
+      </div>
+    </div>
+    """
+    if hasattr(st, "html"):
+        st.html(html)
+    else:
+        st.markdown(html, unsafe_allow_html=True)
 
 def _render_performance(stats: dict[str, float]) -> None:
     cards = [
@@ -695,6 +927,13 @@ def _global_styles() -> str:
     </style>
     """
 
+def _app_with_tabs() -> None:
+    tab1, tab2 = st.tabs(["📡 Dashboard", "📊 Backtester"])
+    with tab1:
+        main()
+    with tab2:
+        _render_backtest_tab()
+
 
 if __name__ == "__main__":
-    main()
+    _app_with_tabs()
