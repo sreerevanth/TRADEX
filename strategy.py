@@ -26,7 +26,7 @@ class TradeSignal:
     reason: str
 
 
-def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str) -> TradeSignal:
+def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target_percent: float, stop_percent: float) -> TradeSignal:
     if data.empty:
         return _hold(symbol, timestamp, "No data available")
 
@@ -81,10 +81,10 @@ def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str) -> Tra
         return _orb_hold(symbol, timestamp, last_price, range_high, range_low, True, "Breakdown rejected by SMA trend filter")
 
     if buy_breakout:
-        return _action_signal(symbol, "BUY", last_price, timestamp, range_high, range_low, volume_confirmed)
+        return _action_signal(symbol, "BUY", last_price, timestamp, range_high, range_low, volume_confirmed, target_percent, stop_percent)
 
     if sell_breakout:
-        return _action_signal(symbol, "SELL", last_price, timestamp, range_high, range_low, volume_confirmed)
+        return _action_signal(symbol, "SELL", last_price, timestamp, range_high, range_low, volume_confirmed, target_percent, stop_percent)
 
     return _orb_hold(symbol, timestamp, last_price, range_high, range_low, True, "Price is inside the opening range")
 
@@ -97,14 +97,16 @@ def _action_signal(
     range_high: float,
     range_low: float,
     volume_confirmed: bool,
+    target_percent: float,
+    stop_percent: float,
 ) -> TradeSignal:
     if signal == "BUY":
-        target = entry_price * 1.01
-        stop_loss = entry_price * 0.995
+        target = entry_price * (1 + target_percent / 100)
+        stop_loss = entry_price * (1 - stop_percent / 100)
         reason = "Price broke above opening range high with volume confirmation"
     else:
-        target = entry_price * 0.99
-        stop_loss = entry_price * 1.005
+        target = entry_price * (1 - target_percent / 100)
+        stop_loss = entry_price * (1 + stop_percent / 100)
         reason = "Price broke below opening range low with volume confirmation"
 
     return TradeSignal(

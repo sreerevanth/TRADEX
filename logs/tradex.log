@@ -305,3 +305,5 @@
 2026-04-19 23:25:54,754 WARNING ITC.NS: yfinance 5m/5d returned no valid OHLCV rows; yfinance 15m/5d returned no valid OHLCV rows; quote fallback failed: Yahoo quote API failed: attempt 3: HTTP Error 401: Unauthorized; using Yahoo chart API
 2026-04-19 23:30:54,884 WARNING No matching stock found for kalayan
 2026-04-19 23:31:03,765 WARNING No matching stock found for kalayan jwellers
+2026-06-03 16:52:57,119 WARNING Yahoo search failed for YES BANK: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)>
+2026-06-03 16:52:57,119 WARNING No matching stock found for Yes Bank
