@@ -62,6 +62,13 @@ def main() -> None:
             else:
                 refresh_seconds = 12
 
+        st.markdown('### Strategy Settings')
+        orb_window = st.selectbox(
+            "ORB Window  (minutes)",
+            [5,10,15,30],
+            index = 2,
+        )
+
         # ── Trading Mode ──────────────────────────────────
         st.markdown("---")
         st.markdown('<div class="sidebar-header">TRADING MODE</div>', unsafe_allow_html=True)
@@ -120,7 +127,7 @@ def main() -> None:
         return
 
     with st.spinner("Analyzing data..."):
-        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols),target_percent,stop_percent)
+        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols),target_percent,stop_percent,orb_window)
 
     frame = signals_to_frame(signals)
     if frame.empty:
@@ -129,21 +136,14 @@ def main() -> None:
 
     # ── Paper trade logging ───────────────────────────────
     if trading_mode == "PAPER":
-    for signal in signals:
-        if signal.signal in {"BUY", "SELL"}:
-            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
-            if signal_key not in logged:
-                log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
-                logged.add(signal_key)
-    st.session_state["paper_logged_signals"] = loggedif trading_mode == "PAPER":
-    logged = st.session_state.get("paper_logged_signals", set())
-    for signal in signals:
-        if signal.signal in {"BUY", "SELL"}:
-            signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
-            if signal_key not in logged:
-                log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
-                logged.add(signal_key)
-    st.session_state["paper_logged_signals"] = logged
+        logged = st.session_state.get("paper_logged_signals", set())
+        for signal in signals:
+            if signal.signal in {"BUY", "SELL"}:
+                signal_key = f"{signal.symbol}_{signal.signal}_{signal.entry_price}"
+                if signal_key not in logged:
+                    log_paper_trade(signal, sl_pct=sl_pct, tp_pct=tp_pct)
+                    logged.add(signal_key)
+        st.session_state["paper_logged_signals"] = logged
 
     mode_label = "PAPER" if trading_mode == "PAPER" else "LIVE"
     st.markdown(
@@ -367,8 +367,8 @@ def _render_backtest_tab() -> None:
 
 
 @st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
-def _analyze_cached(symbols: tuple[str, ...],target_percent,stop_percent):
-    return analyze_symbols(list(symbols),target_percent,stop_percent)
+def _analyze_cached(symbols: tuple[str, ...],target_percent,stop_percent,orb_window):
+    return analyze_symbols(list(symbols),target_percent,stop_percent,orb_window)
 
 
 @st.cache_data(ttl=300, show_spinner=False)

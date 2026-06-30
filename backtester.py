@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
-
+import pandas as pd
 import yfinance as yf
 
 
@@ -32,6 +32,8 @@ def run_backtest(
         progress=False,
         auto_adjust=True,
     )
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
 
     if df.empty or len(df) < 3:
         return BacktestResult()
