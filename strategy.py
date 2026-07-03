@@ -26,7 +26,7 @@ class TradeSignal:
     reason: str
 
 
-def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target_percent: float, stop_percent: float) -> TradeSignal:
+def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target_percent: float, stop_percent: float, orb_window: int) -> TradeSignal:
     if data.empty:
         return _hold(symbol, timestamp, "No data available")
 
@@ -45,7 +45,7 @@ def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target
             last_price=last_price,
         )
 
-    opening_range = _opening_range_window(clean_data)
+    opening_range = _opening_range_window(clean_data,orb_window)
     if opening_range.empty:
         return _hold(symbol, timestamp, "Could not identify opening range", last_price=_safe_last_price(clean_data))
 
@@ -164,9 +164,12 @@ def _orb_hold(
     )
 
 
-def _opening_range_window(data: pd.DataFrame) -> pd.DataFrame:
+def _opening_range_window(data: pd.DataFrame, orb_window: int) -> pd.DataFrame:
     first_timestamp = pd.to_datetime(data.index[0])
-    end_timestamp = first_timestamp + pd.Timedelta(minutes=15)
+    end_timestamp = first_timestamp + pd.Timedelta(minutes=orb_window)
+    print(f"ORB Window: {orb_window} minutes")
+    print(f"Start Time: {first_timestamp}")
+    print(f"End Time: {end_timestamp}")
     opening_range = data[pd.to_datetime(data.index) < end_timestamp]
     if opening_range.empty:
         return data.iloc[:1]
