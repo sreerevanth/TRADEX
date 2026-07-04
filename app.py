@@ -69,6 +69,13 @@ def main() -> None:
             index = 2,
         )
 
+        st.markdown("### SMA Window")
+        sma_window = st.selectbox(
+            "SMA Window",
+            [5,10,20,50],
+            index = 0,
+        )
+
         # ── Trading Mode ──────────────────────────────────
         st.markdown("---")
         st.markdown('<div class="sidebar-header">TRADING MODE</div>', unsafe_allow_html=True)
@@ -127,7 +134,7 @@ def main() -> None:
         return
 
     with st.spinner("Analyzing data..."):
-        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols),target_percent,stop_percent,orb_window)
+        signals, charts, errors, trades, stats = _analyze_cached(tuple(symbols),target_percent,stop_percent,orb_window,sma_window)
 
     frame = signals_to_frame(signals)
     if frame.empty:
@@ -367,8 +374,8 @@ def _render_backtest_tab() -> None:
 
 
 @st.cache_data(ttl=CACHE_TTL_SECONDS, show_spinner=False)
-def _analyze_cached(symbols: tuple[str, ...],target_percent,stop_percent,orb_window):
-    return analyze_symbols(list(symbols),target_percent,stop_percent,orb_window)
+def _analyze_cached(symbols: tuple[str, ...],target_percent,stop_percent,orb_window,sma_window):
+    return analyze_symbols(list(symbols),target_percent,stop_percent,orb_window,sma_window)
 
 
 @st.cache_data(ttl=300, show_spinner=False)

@@ -37,6 +37,7 @@ def analyze_symbols(
     target_percent: float,
     stop_percent: float,
     orb_window: int,
+    sma_window: int,
 ) -> tuple[list[TradeSignal], dict[str, pd.DataFrame], dict[str, str], pd.DataFrame, dict[str, float]]:
     configure_logging()
     signals: list[TradeSignal] = []
@@ -52,7 +53,7 @@ def analyze_symbols(
         if result.error:
             errors[result.symbol or symbol] = result.error
 
-        signal = calculate_orb_signal(result.symbol or symbol, result.data, timestamp, target_percent, stop_percent,orb_window)
+        signal = calculate_orb_signal(result.symbol or symbol, result.data, timestamp, target_percent, stop_percent,orb_window,sma_window)
         signals.append(signal)
 
         if not result.data.empty:
