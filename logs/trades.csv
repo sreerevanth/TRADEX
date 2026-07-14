@@ -202,3 +202,15 @@ timestamp,symbol,signal,entry_price,target,stop_loss,last_price,reason
 2026-06-29T19:55:00,AAPL,SELL,281.63,278.45,283.83,281.63,Price broke below opening range low with volume confirmation
 2026-06-29T19:55:00,AAPL,SELL,281.63,278.17,284.33,281.63,Price broke below opening range low with volume confirmation
 2026-06-29T19:55:00,AAPL,SELL,281.63,278.17,284.33,281.63,Price broke below opening range low with volume confirmation
+2026-06-29T19:55:00,AAPL,SELL,281.63,276.28,283.04,281.63,Price broke below opening range low with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation
+2026-07-02T19:55:00,AAPL,BUY,308.22,311.3,306.68,308.22,Price broke above opening range high with volume confirmation

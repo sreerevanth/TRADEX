@@ -26,7 +26,7 @@ class TradeSignal:
     reason: str
 
 
-def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target_percent: float, stop_percent: float, orb_window: int) -> TradeSignal:
+def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target_percent: float, stop_percent: float, orb_window: int,sma_window: int) -> TradeSignal:
     if data.empty:
         return _hold(symbol, timestamp, "No data available")
 
@@ -58,7 +58,7 @@ def calculate_orb_signal(symbol: str, data: pd.DataFrame, timestamp: str, target
     current_volume = float(signal_candle["Volume"])
     average_volume = float(clean_data["Volume"].iloc[:-1].mean()) if len(clean_data) > 1 else 0.0
     volume_confirmed = average_volume > 0 and current_volume > average_volume
-    sma = _trend_sma(clean_data)
+    sma = _trend_sma(clean_data,sma_window)
     buy_trend = last_price > sma
     sell_trend = last_price < sma
     breakout_buffer = max(range_high * BREAKOUT_BUFFER_PERCENT, 0.01)
@@ -176,11 +176,12 @@ def _opening_range_window(data: pd.DataFrame, orb_window: int) -> pd.DataFrame:
     return opening_range
 
 
-def _trend_sma(data: pd.DataFrame) -> float:
+def _trend_sma(data: pd.DataFrame, sma_window: int) -> float:
     close = data["Close"].dropna()
+    print(f"SMA Window: {sma_window} minutes")
     if close.empty:
         return 0.0
-    window = min(SMA_WINDOW, len(close))
+    window = min(sma_window, len(close))
     return float(close.tail(window).mean())
 
 
