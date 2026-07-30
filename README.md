@@ -3,10 +3,11 @@
 A hacker-style intraday trading simulation dashboard that generates live BUY/SELL signals, tracks trades, and visualizes market data with interactive charts.
 
 ---
+
 ## DEMO
+
 https://github.com/user-attachments/assets/f2789874-dcdd-4239-9b01-6c53bc63a9db
 ---
-
 
 ## 🚀 Overview
 
@@ -56,13 +57,14 @@ It scans stocks, applies the **Opening Range Breakout (ORB)** strategy, generate
 Tradex uses a refined version of **Opening Range Breakout (ORB)**:
 
 - Uses first **15-minute high/low**
-- BUY → breakout above high  
-- SELL → breakdown below low  
+- BUY → breakout above high
+- SELL → breakdown below low
 
 Additional filters:
-- Volume confirmation  
-- Trend filter (SMA)  
-- Breakout buffer to reduce noise  
+
+- Volume confirmation
+- Trend filter (SMA)
+- Breakout buffer to reduce noise
 
 ---
 
@@ -72,7 +74,6 @@ Additional filters:
 - **Streamlit**
 - **Plotly**
 - **Pandas**
-
 
 - **yfinance + Yahoo Finance APIs**
 
@@ -85,3 +86,4 @@ git clone https://github.com/sreerevanth/TRADEX.git
 cd TRADEX
 pip install -r requirements.txt
 streamlit run app.py
+```
