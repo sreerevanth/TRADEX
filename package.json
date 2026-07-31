@@ -1,0 +1,11 @@
+{
+  "name": "tradex",
+  "version": "1.0.0",
+  "description": "TRADEX prettier formatting",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yaml,yml,html,vue}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}
